@@ -1,0 +1,535 @@
+/* ========================================================
+   VARIABLES & RESET
+   ======================================================== */
+:root {
+  --telkomsel-red: #E60000;
+  --telkomsel-red-light: #fbebeb;
+  --telkomsel-dark: #212529;
+  --telkomsel-blue: #0D6EFD;
+  --telkomsel-green: #198754;
+  --telkomsel-yellow: #FFC107;
+  /* TAMBAHAN: Variabel untuk warna Achieve % (biru/teal) */
+  --telkomsel-teal: #0DCAF0; 
+  --telkomsel-gray: #6c757d;
+  --body-bg: #f9fafb;
+  --sidebar-width: 240px; /* <<<< UBAH LEBAR SIDEBAR DI SINI */
+  --top-navbar-height: 60px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--body-bg);
+  overflow-x: hidden;
+  padding-top: var(--top-navbar-height);
+  padding-left: var(--sidebar-width); /* Sesuaikan padding */
+  transition: padding-left 0.3s ease;
+}
+
+/* ========================================================
+   LAYOUT & SIDEBAR
+   ======================================================== */
+.icon-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width); /* Gunakan variabel baru */
+  height: 100vh;
+  background: var(--telkomsel-dark);
+  display: flex;
+  flex-direction: column;
+  z-index: 1030;
+  transition: all 0.3s ease;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-logo {
+  height: var(--top-navbar-height);
+  display: flex;
+  align-items: center;
+  /* UBAH: Logo dan teks di kiri */
+  justify-content: flex-start;
+  padding-left: 1.5rem; /* Beri padding kiri */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none; /* Hapus garis bawah jika logo adalah link */
+}
+
+.sidebar-logo i {
+  font-size: 1.8rem;
+  color: var(--telkomsel-red);
+  margin-right: 0.75rem; /* Jarak antara ikon dan teks (jika ada) */
+}
+
+/* TAMBAHKAN: Style untuk teks di sebelah logo (opsional) */
+.sidebar-logo-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap; /* Agar tidak wrap */
+}
+.sidebar-logo-text strong {
+    color: var(--telkomsel-red);
+    font-weight: 700;
+}
+
+
+.icon-sidebar .nav {
+  flex: 1;
+  padding: 1rem 0.75rem; /* Sedikit padding horizontal */
+  overflow-y: auto;
+}
+
+.icon-sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  /* UBAH: Tampilan link */
+  text-align: left; /* Teks rata kiri */
+  padding: 0.75rem 1rem; /* Padding atas/bawah dan kiri/kanan */
+  margin: 0.2rem 0; /* Margin atas/bawah */
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex; /* Gunakan flexbox */
+  flex-direction: row; /* Ikon dan teks bersebelahan */
+  align-items: center; /* Sejajarkan vertikal */
+  font-size: 0.9rem; /* Ukuran font teks */
+  white-space: nowrap; /* Pastikan teks tidak wrap */
+}
+
+.icon-sidebar .nav-link i {
+  font-size: 1.1rem; /* Ukuran ikon */
+  margin-bottom: 0; /* Hapus margin bawah ikon */
+  margin-right: 0.75rem; /* Jarak antara ikon dan teks */
+  width: 20px; /* Beri lebar tetap agar rapi */
+  text-align: center; /* Ikon di tengah area lebarnya */
+}
+
+/* Teks label di sidebar */
+.icon-sidebar .nav-link span {
+    display: inline; /* Tampilkan teks */
+    opacity: 1; /* Pastikan terlihat */
+}
+
+
+.icon-sidebar .nav-link:hover,
+.icon-sidebar .nav-link.active {
+  background: var(--telkomsel-red);
+  color: white;
+}
+
+.sidebar-footer {
+  padding: 0.75rem; /* Sesuaikan padding */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* Pastikan link footer juga benar */
+.sidebar-footer .nav-link {
+    justify-content: flex-start;
+}
+
+
+/* Sidebar saat mobile */
+@media (max-width: 991.98px) {
+  /* Di mobile, kembalikan ke ikon saja jika mau, atau biarkan melebar */
+  /* Opsi 1: Tetap lebar */
+  .icon-sidebar {
+      transform: translateX(-100%);
+      z-index: 1040;
+  }
+  .icon-sidebar.mobile-open {
+      transform: translateX(0);
+  }
+  body {
+      padding-left: 0;
+  }
+
+  /* Opsi 2 (jika ingin kembali ikon saja di mobile):
+  :root { --sidebar-width: 70px; }
+  .icon-sidebar .nav-link { flex-direction: column; text-align: center; }
+  .icon-sidebar .nav-link i { margin-right: 0; margin-bottom: 0.3rem; width: auto; }
+  .icon-sidebar .nav-link span { display: none; } // Sembunyikan teks
+  .sidebar-logo { justify-content: center; padding-left: 0; }
+  .sidebar-logo-text { display: none; }
+  */
+}
+
+/* ========================================================
+   TOP NAVBAR
+   ======================================================== */
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width); /* Sesuaikan posisi kiri */
+  right: 0;
+  height: var(--top-navbar-height);
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  z-index: 1020;
+  transition: left 0.3s ease;
+}
+
+@media (max-width: 991.98px) {
+  .top-navbar {
+    left: 0; /* Tetap full width di mobile */
+  }
+}
+
+/* ... (Sisa kode CSS tidak perlu diubah, biarkan seperti sebelumnya) ... */
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--telkomsel-dark);
+  text-decoration: none;
+}
+
+.navbar-brand-text strong {
+  color: var(--telkomsel-red);
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#mobileSidebarToggle {
+    color: var(--telkomsel-dark);
+}
+
+.main-content {
+  padding: 2rem;
+  min-height: calc(100vh - var(--top-navbar-height));
+}
+
+@media (max-width: 991.98px) {
+  .main-content {
+      padding: 1rem;
+  }
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  background: #ffffff;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.03);
+  transform: translateY(-3px);
+}
+
+.card-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--telkomsel-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.card-header i {
+  margin-right: 0.6rem;
+  color: var(--telkomsel-red);
+}
+
+/* ========================================================
+   STAT CARD (KARTU KPI) - PERBAIKAN
+   ======================================================== */
+.stat-card {
+  color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  /* PERBAIKAN: Tambahkan transisi dan shadow-hover yang sama dengan .card */
+  transition: all 0.3s ease; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.stat-card:hover {
+  /* PERBAIKAN: Efek hover konsisten dengan .card */
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.03);
+  transform: translateY(-3px);
+}
+
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.stat-card .card-body {
+  padding: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.15);
+  z-index: 0;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1) rotate(-5deg);
+  opacity: 0.2;
+}
+
+.stat-card .label {
+  /* PERBAIKAN: Sedikit lebih besar agar mudah dibaca */
+  font-size: 1rem; 
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.stat-card .value {
+  /* PERBAIKAN: Buat JAUH LEBIH BESAR agar menjadi fokus utama */
+  font-size: 2.25rem; /* Dari 2rem */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2; /* Jaga jarak jika angka terlalu besar */
+}
+
+/* PERBAIKAN: Warna gradient untuk kartu KPI */
+.bg-sow { background: linear-gradient(45deg, var(--telkomsel-blue), #0a58ca); }
+.bg-done { background: linear-gradient(45deg, var(--telkomsel-green), #146c43); }
+.bg-not-done { background: linear-gradient(45deg, var(--telkomsel-yellow), #d39e00); }
+/* PERBAIKAN: Ganti purple ke teal/biru muda agar sesuai screenshot */
+.bg-achieve { background: linear-gradient(45deg, var(--telkomsel-teal), #0aa3bf); }
+
+
+/* ========================================================
+   SISA CSS (Tidak diubah)
+   ======================================================== */
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.chart-container-kpi {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+
+.chart-kpi-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.chart-kpi-center .value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.chart-kpi-center .label {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.3rem;
+}
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e5e7eb;
+}
+
+.thead-telkomsel th {
+  background: var(--telkomsel-red) !important;
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+.table thead tr:first-child th:first-child { border-top-left-radius: 7px; }
+.table thead tr:first-child th:last-child { border-top-right-radius: 7px; }
+
+.table tbody td {
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+}
+.table tbody tr:first-child td {
+  border-top: none;
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--telkomsel-red-light);
+}
+
+.table tfoot td {
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-top: 2px solid #dee2e6;
+}
+.table tfoot tr:last-child td:first-child { border-bottom-left-radius: 7px; }
+.table tfoot tr:last-child td:last-child { border-bottom-right-radius: 7px; }
+
+#map {
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.page-footer {
+    background-color: #e9ecef;
+    color: var(--telkomsel-gray);
+    padding: 1rem 1.5rem; /* Tambah padding horizontal */
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 0.6rem 0.75rem;
+  transition: all 0.3s ease;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--telkomsel-red);
+  box-shadow: 0 0 0 0.2rem rgba(230, 0, 0, 0.2);
+}
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.6rem 1rem;
+}
+.btn-primary {
+  background: var(--telkomsel-red);
+  border-color: var(--telkomsel-red);
+}
+.btn-primary:hover {
+  background: #c20000;
+  border-color: #b80000;
+  transform: translateY(-1px);
+}
+.btn-success {
+  background: var(--telkomsel-green);
+  border-color: var(--telkomsel-green);
+}
+.btn-success:hover {
+  background: #146c43;
+  border-color: #13653f;
+  transform: translateY(-1px);
+}
+.btn-outline-secondary {
+  border-color: #ced4da;
+  color: #6c757d;
+}
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+.quick-action-btn {
+  border-width: 1px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+.quick-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.badge {
+  font-size: 0.75em;
+  padding: 0.4em 0.6em;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+.dropdown-item {
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+.dropdown-item:hover {
+  background: var(--telkomsel-red-light);
+  color: var(--telkomsel-red);
+}
+
+.leaflet-container { font-family: 'Poppins', sans-serif; }
+.leaflet-popup-content { font-size: 0.9rem; }
+.leaflet-popup-content h6 {
+    color: var(--telkomsel-red);
+    font-weight: 600;
+    border-bottom: 2px solid var(--telkomsel-red);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.map-popup-content .table-sm td { padding: 0.2rem 0; }
+.marker-cluster-small { background-color: rgba(181, 226, 140, 0.6); }
+.marker-cluster-small div { background-color: rgba(110, 204, 57, 0.6); }
+.marker-cluster-medium { background-color: rgba(241, 211, 87, 0.6); }
+.marker-cluster-medium div { background-color: rgba(240, 194, 12, 0.6); }
+.marker-cluster-large { background-color: rgba(253, 156, 115, 0.6); }
+.marker-cluster-large div { background-color: rgba(241, 128, 23, 0.6); }
+.search-control { background: white; padding: 5px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.fullscreen-control { background: white; padding: 5px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.legend { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+.legend-color { width: 20px; height: 20px; border-radius: 50%; margin-right: 8px; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+@media (max-width: 768px) {
+    #map { height: 400px !important; }
+    .search-control .input-group { width: 200px !important; }
+}
